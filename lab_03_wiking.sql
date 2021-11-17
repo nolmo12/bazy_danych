@@ -1,5 +1,11 @@
 //Zad1
-create table postac(id_postaci int primary key not null auto_increment, nazwa varchar(40) not null, rodzaj enum("wiking", "ptak", "kobieta"), data_ur datetime not null, wiek int not null check (wiek>=0);
+create table postac(
+  id_postaci int primary key not null auto_increment,
+  nazwa varchar(40) not null,
+  rodzaj enum("wiking", "ptak", "kobieta"),
+  data_ur datetime not null,
+  wiek int unsigned not null
+);
 insert into postac values(1, "Bjorn", "wiking", "1993-10-12", 28);
 insert into postac values(2, "Drozd", "wiking", "1998-03-09", 23);
 insert into postac values(3, "Tesciowa", "wiking", "1967-11-04", 54);
