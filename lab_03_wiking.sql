@@ -18,7 +18,11 @@ insert into walizka values(2, 250,"teczowy",3);
 //Zad3
 create table izba(adres_budynku varchar(200) not null, nazwa_izby varchar(200) not null, metraz int check(metraz>=0), wlasciciel int, primary key(adres_budynku, nazwa_izby), foreign key(wlasciciel) references postac(id_postaci) on delete set null);
 alter table izba add  column kolor varchar(20) after metraz;
-alter kolor set default 'czarny';
+alter table
+  izba alter kolor
+set
+  default 'czarny';
+
 insert into izba(`adres_budynku`, `nazwa_izby`, `metraz`, `wlasciciel`)  values("Wiosenna 27", "Spiżarnia Wikinga", 40, 1);
 //Zad4
 create table przetwory(
