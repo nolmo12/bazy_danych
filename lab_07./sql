@@ -1,0 +1,3 @@
+#zadanie1
+insert into  kreatura select  * from wikingowie.kreatura;
+
