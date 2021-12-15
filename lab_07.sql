@@ -55,3 +55,9 @@ Zad 4.
 	inner join etapy_wyprawy et
 	on et.idWyprawy=w.id_wyprawy
 	group by w.nazwa;
+2.
+select u.id_wyprawy, sum(e.ilosc*z.waga)/count(distinct(u.id_uczestnika)) as srednia
+ from uczestnicy u
+ left join ekwipunek e on u.id_uczestnika=e.idKreatury
+ left join zasob z on e.idZasobu=z.idZasobu
+ group by u.id_wyprawy;
