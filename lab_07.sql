@@ -1,12 +1,57 @@
-//zadanie 1
-insert into  kreatura select  * from  wikingowie.kreatura;
-create table uczestnicy like wikingowie.uczestnicy;
-insert into uczestnicy select * from wikingowie.uczestnicy;
-create table etapy_wyprawy like wikingowie.etapy_wyprawy;
-insert into etapy_wyprawy select * from wikingowie.etapy_wyprawy;
-create table sektor like wikingowie.sektor;
-insert into sektor select * from wikingowie.sektor;
-create table wyprawa like wikingowie.wyprawa;
-insert into wyprawa select * from wikingowie.wyprawa;
+Zad 1.
 
-select nazwa from kreatura where idKreatury not in (select distinct id_uczestnika from uczestnicy);
+1.
+	Create table uczestnicy as select * from wikingowie.uczestnicy;
+	Create table etapy_wyprawy as select * from wikingowie.etapy_wyprawy;
+	Create table sektor as select * from wikingowie.sektor;
+	Create table wyprawa as select * from wikingowie.wyprawa;
+2.
+	select nazwa, idKreatury from kreatura where idKreatury not in 
+	(select distinct id_uczestnika from uczestnicy);
+3.
+	select w.nazwa, sum(e.ilosc) from wyprawa w
+	inner join uczestnicy u 
+	on w.id_wyprawy=u.id_wyprawy
+	inner join ekwipunek e
+	on u.id_uczestnika=e.idKreatury
+	group by w.nazwa;
+
+Zad 2.
+
+1.
+	Select w.nazwa, count(u.id_uczestnika), group_concat(k.nazwa) from wyprawa w
+	inner join uczestnicy u
+	on w.id_wyprawy=u.id_wyprawy
+	inner join kreatura k 
+	on u.id_uczestnika=k.idKreatury
+	group by w.nazwa;
+2.
+	Select et.kolejnosc, s.nazwa, k.nazwa from sektor s
+	inner join etapy_wyprawy et
+	on et.sektor=s.id_sektora
+	inner join wyprawa w
+	on et.idwyprawy=w.id_wyprawy
+	inner join kreatura k
+	on k.idKreatury=w.kierownik
+	order by w.data_rozpoczecia, et.kolejnosc;
+	
+Zad 3.
+
+1.
+	Select s.nazwa, count(et.sektor) from sektor s
+	left join etapy_wyprawy et on et.sektor=s.id_sektora
+	group by s.nazwa;
+2.
+	Select k.nazwa, if(count(u.id_uczestnika)>0, 'bral udzial w wyprawie', 'nie bral udzialu w wyprawie') 
+	from kreatura k
+	left join uczestnicy u
+	on k.idKreatury=u.id_uczestnika
+	group by k.nazwa;
+	
+Zad 4.
+
+1.
+	Select w.nazwa, if(sum(length(et.dziennik))<400, sum(length(et.dziennik)), NULL) from wyprawa w 
+	inner join etapy_wyprawy et
+	on et.idWyprawy=w.id_wyprawy
+	group by w.nazwa;
